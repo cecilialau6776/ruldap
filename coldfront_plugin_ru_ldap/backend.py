@@ -1,4 +1,4 @@
-from coldfront_plugin_ldap_custom_mapping.utils import LDAPCustomMapping
+from coldfront.plugins.ldap_user_search.utils import LDAPUserSearch
 from coldfront.core.utils.common import import_from_settings
 from django.contrib.auth.backends import RemoteUserBackend
 from django.contrib.auth import get_user_model
@@ -20,7 +20,7 @@ class LDAPRemoteUserBackend(RemoteUserBackend):
             return None
         search_term = self.clean_username(remote_user)
         search_by = import_from_settings("RULDAP_SEARCH_BY", "username")
-        search = LDAPCustomMapping(search_term, search_by)
+        search = LDAPUserSearch(search_term, search_by)
         search_results = search.search_a_user(search_term, search_by)
         self.user_dict = search_results
         self.CONFIGURE_USER = import_from_settings("RULDAP_CONFIGURE_USER", configure_user)
